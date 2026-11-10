@@ -62,6 +62,7 @@ export function ProcessingPanel({
         </div>
 
         <Progress
+          name={step}
           pct={running ? pct : 100}
           live={running}
           right={running ? `${Math.max(0, total - done)} to go` : "done"}

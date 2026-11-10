@@ -29,11 +29,15 @@ function Track({
   size = "md",
   color = "var(--accent)",
   live = false,
+  name,
 }: {
   pct: number;
   size?: ProgressSize;
   color?: string;
   live?: boolean;
+  /** What a screen reader calls it. A bar with no name is announced as a bare
+   *  percentage, of nothing in particular. */
+  name: string;
 }) {
   const h = HEIGHTS[size];
   const clamped = Math.max(0, Math.min(100, pct));
@@ -45,6 +49,7 @@ function Track({
       className="relative w-full overflow-visible rounded-full"
       style={{ height: h, background: "color-mix(in srgb, var(--border) 85%, transparent)" }}
       role="progressbar"
+      aria-label={name}
       aria-valuenow={Math.round(clamped)}
       aria-valuemin={0}
       aria-valuemax={100}
@@ -95,8 +100,11 @@ export function Progress({
   size = "md",
   color,
   live = true,
+  name = "Progress",
 }: {
   pct: number;
+  /** Accessible name. Say what is progressing when it is not obvious. */
+  name?: string;
   /** Caption under the left end. Defaults to the percentage. */
   left?: React.ReactNode;
   /** Caption under the right end. */
@@ -108,7 +116,7 @@ export function Progress({
 }) {
   return (
     <div className="w-full">
-      <Track pct={pct} size={size} color={color} live={live} />
+      <Track pct={pct} size={size} color={color} live={live} name={name} />
       {(left !== undefined || right !== undefined) && (
         <div className="num mt-2 flex justify-between text-[13px] text-faint">
           <span>{left ?? `${Math.round(pct)}%`}</span>
@@ -149,7 +157,13 @@ export function Meter({
           {max !== 100 && <span className="ml-1 text-[12px] text-muted">of {max}</span>}
         </span>
       </div>
-      <Track pct={pct} size={size} color={color} live={false} />
+      <Track
+        pct={pct}
+        size={size}
+        color={color}
+        live={false}
+        name={typeof label === "string" ? label : "Meter"}
+      />
       {note && <p className="mt-1 text-[12px] leading-snug text-muted">{note}</p>}
     </div>
   );

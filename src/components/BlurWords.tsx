@@ -17,7 +17,10 @@ export function BlurWords({
   const words = text.split(/\s+/).filter(Boolean);
 
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      {/* Read once, as a sentence. An aria-label on a bare span is not allowed
+          and is ignored by some screen readers, which then read nothing. */}
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => (
         <span key={i} aria-hidden>
           <span className="blur-word" style={{ animationDelay: `${delay + i * step}ms` }}>

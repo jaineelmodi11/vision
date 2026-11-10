@@ -98,6 +98,7 @@ export function AgentBoot({
             </motion.p>
 
             <Progress
+              name="Loading Vision"
               pct={progress}
               size="lg"
               live={progress < 100}

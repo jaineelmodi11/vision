@@ -285,6 +285,7 @@ export function PersonaCall({
       <div className="mt-3">
         {/* Live, so the head keeps breathing while the call is going. */}
         <Progress
+          name="How they feel about your idea"
           pct={sentiment * 100}
           live
           size="sm"
