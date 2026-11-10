@@ -139,7 +139,7 @@ await page
 await button("Convene the committee").waitFor({ timeout: 30000 });
 await page.waitForTimeout(1200);
 await button("Convene the committee").click();
-await control(/Read the verdict/).waitFor({ timeout: 180000 });
+await control(/Pitch them/).waitFor({ timeout: 180000 });
 await page.waitForTimeout(1500);
 await shot("08-committee-minutes");
 
