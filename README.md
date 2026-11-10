@@ -8,7 +8,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![Three.js](https://img.shields.io/badge/three.js-r186-049EF4.svg?logo=three.js&logoColor=white)](https://threejs.org)
-[![Tests](https://img.shields.io/badge/tests-177%20passing-1a7f37.svg)](#-tests)
+[![CI](https://github.com/jaineelmodi11/vision/actions/workflows/ci.yml/badge.svg)](https://github.com/jaineelmodi11/vision/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ### Final round at [Hack the North 2026](https://hackthenorth.com) · [Devpost](https://devpost.com/software/vision-xqn16g) · [Architecture](ARCHITECTURE.md)
