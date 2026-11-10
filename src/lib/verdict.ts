@@ -30,6 +30,39 @@ export function normalizeWeights(weights: WeightMap): WeightMap {
 }
 
 /**
+ * Each seat's share of the vote as a whole percentage, for printing.
+ *
+ * Seat weights are not required to add up to one, and with the fourth seat at
+ * the table they add up to 1.1. The score normalises them, so anything that
+ * prints a share has to as well: printing the raw weights told the founder the
+ * room held 110% of the vote.
+ *
+ * Largest remainder, so the printed figures also add up to exactly 100.
+ * Rounding each one separately gives 45 + 27 + 18 + 9 = 99.
+ */
+export function voteShares(weights: WeightMap): Record<string, number> {
+  const voting = Object.fromEntries(Object.entries(weights).filter(([, w]) => w > 0));
+  const exact = Object.entries(normalizeWeights(voting)).map(([id, w]) => ({
+    id,
+    floor: Math.floor(w * 100),
+    rest: w * 100 - Math.floor(w * 100),
+  }));
+  let spare = exact.length > 0 ? 100 - exact.reduce((a, e) => a + e.floor, 0) : 0;
+  // Ties go to whoever is listed first, which is the heavier seat.
+  const byRest = [...exact].sort((a, b) => b.rest - a.rest);
+  const shares: Record<string, number> = Object.fromEntries(
+    Object.keys(weights).map((id) => [id, 0])
+  );
+  for (const e of exact) shares[e.id] = e.floor;
+  for (const e of byRest) {
+    if (spare <= 0) break;
+    shares[e.id] += 1;
+    spare -= 1;
+  }
+  return shares;
+}
+
+/**
  * Confidence-weighted mean stance, penalized for unresolved objections.
  *
  * Confidence weighting matters: a 50%-weight GP who admits low confidence

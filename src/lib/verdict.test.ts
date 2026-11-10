@@ -6,6 +6,7 @@ import {
   decide,
   detectDissents,
   normalizeWeights,
+  voteShares,
   stanceVariance,
   type WeightMap,
 } from "@/lib/verdict";
@@ -39,6 +40,31 @@ describe("normalizeWeights", () => {
     const n = normalizeWeights({ a: 0, b: 0 });
     expect(n.a).toBeCloseTo(0.5);
     expect(n.b).toBeCloseTo(0.5);
+  });
+});
+
+describe("voteShares", () => {
+  // The room as it actually sits: three partners, the outsider, the chair.
+  const room = { gp: 0.5, principal: 0.3, skeptic: 0.2, "devils-advocate": 0.1, chair: 0 };
+
+  it("adds up to 100 when the raw weights do not add up to one", () => {
+    // Printed raw, these read 50 + 30 + 20 + 10: a room holding 110% of the vote.
+    const shares = voteShares(room);
+    expect(Object.values(shares).reduce((a, b) => a + b, 0)).toBe(100);
+    expect(shares).toEqual({ gp: 46, principal: 27, skeptic: 18, "devils-advocate": 9, chair: 0 });
+  });
+
+  it("leaves weights that already add up to one alone", () => {
+    expect(voteShares({ gp: 0.5, principal: 0.3, skeptic: 0.2 })).toEqual({
+      gp: 50,
+      principal: 30,
+      skeptic: 20,
+    });
+  });
+
+  it("gives a room with nobody voting no shares at all", () => {
+    expect(voteShares({ chair: 0 })).toEqual({ chair: 0 });
+    expect(voteShares({})).toEqual({});
   });
 });
 

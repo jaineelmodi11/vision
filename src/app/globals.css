@@ -48,7 +48,9 @@
 
   /* Brand blue, darkened until it holds contrast on paper. The dark theme's
      #5aa9e6 fails against a light background. */
-  --accent: #1d6fb8;
+  /* A shade darker than it was (#1d6fb8), which sat at 4.3:1 on the
+     highlighted row of the stage rail. This clears 4.5:1 on every surface. */
+  --accent: #1b69ae;
   --accent-dim: #a9c8e4;
 
   /* Approval lights, darkened for the same reason. Everyone already knows

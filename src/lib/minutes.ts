@@ -1,5 +1,6 @@
 import type { DeliberationSnapshot } from "@/lib/store";
 import type { ICVerdict, Objection } from "@/lib/types";
+import { voteShares } from "@/lib/verdict";
 
 // ============================================================================
 // THE MINUTES, the chair's document.
@@ -96,12 +97,13 @@ export function writeMinutes(input: {
   // seat rather than by its title: matching on the word "chair" listed it
   // twice, once from the roster and once appended here.
   const chaired = (r: { id: string; role: string }) => r.id === "chair" || /chair/i.test(r.role);
+  const share = voteShares(Object.fromEntries(snapshot.roster.map((r) => [r.id, r.weight])));
   const seated = snapshot.roster.map((r) => ({
     role: r.role,
     note: chaired(r)
       ? "chairs, keeps these minutes, does not vote"
       : r.weight > 0
-        ? `votes · ${Math.round(r.weight * 100)}% of the vote`
+        ? `votes · ${share[r.id]}% of the vote`
         : "argues, does not vote",
   }));
   // The chair is in the room even when it is not on the roster the room votes with.

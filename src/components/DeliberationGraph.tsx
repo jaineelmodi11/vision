@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AgentFace, moodOf } from "@/components/AgentFace";
+import { voteShares } from "@/lib/verdict";
 
 // ============================================================================
 // THE DELIBERATION, DRAWN.
@@ -74,6 +75,8 @@ export function DeliberationGraph({
   }, []);
 
   const voting = seats.filter((s) => s.weight > 0);
+  // Normalised, the way the score counts them. See voteShares.
+  const shares = voteShares(Object.fromEntries(seats.map((s) => [s.id, s.weight])));
   const W = Math.max(260, measured);
   const H = height ?? Math.round(Math.min(330, Math.max(210, W * 0.6)));
   const cx = W / 2;
@@ -244,7 +247,7 @@ export function DeliberationGraph({
                   size={r * 2}
                 />
               </foreignObject>
-              <title>{`${s.role} · ${Math.round(s.weight * 100)}% of the vote${v ? ` · stance ${v.stance.toFixed(2)}` : ""}`}</title>
+              <title>{`${s.role} · ${shares[s.id] ?? 0}% of the vote${v ? ` · stance ${v.stance.toFixed(2)}` : ""}`}</title>
               <text
                 x={p.x}
                 y={labelBelow ? p.y + r + 12 : p.y - r - 6}

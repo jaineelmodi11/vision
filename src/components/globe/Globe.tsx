@@ -90,7 +90,7 @@ type Props = {
 
 // Matches --accent in globals.css. Kept in sync by hand because a WebGL
 // uniform cannot read a CSS custom property.
-const ACCENT = new THREE.Color("#1d6fb8");
+const ACCENT = new THREE.Color("#1b69ae");
 // The app's own "go" green (globals.css --go / --positive), so the globe
 // does not introduce a colour nothing else on the page uses.
 const LAND_DOT = new THREE.Color("#1a7f37");

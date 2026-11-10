@@ -308,7 +308,7 @@ useful warning the app gives.
 ## 🧪 Tests
 
 ```bash
-npm test          # 177 tests
+npm test
 npm run lint
 npm run build
 npm run personas  # regenerate the persona library from hubs.json, deterministic

@@ -17,7 +17,7 @@ export const contentType = "image/png";
 const GROUND = "#f6f4ef";
 const TEXT = "#191b20";
 const MUTED = "#5a6068";
-const ACCENT = "#1d6fb8";
+const ACCENT = "#1b69ae";
 const BORDER = "#dcd6c9";
 
 export default function OpengraphImage() {
