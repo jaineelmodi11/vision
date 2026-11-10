@@ -12,6 +12,7 @@ import {
 import { Narrator } from "@/components/Narrator";
 import { AgentBoot, MARKET_STEPS } from "@/components/hud/AgentBoot";
 import { ProcessingPanel } from "@/components/hud/ProcessingPanel";
+import { SmallScreenNotice } from "@/components/SmallScreenNotice";
 import { Intake } from "@/components/Intake";
 import { PersonaCall } from "@/components/PersonaCall";
 import { StageRail, deriveStages, type Segment } from "@/components/StageRail";
@@ -1072,6 +1073,7 @@ export default function Discover() {
 
   return (
     <main className="relative h-screen overflow-hidden bg-ground text-ink">
+      <SmallScreenNotice />
       {booting && (
         <AgentBoot
           steps={MARKET_STEPS}

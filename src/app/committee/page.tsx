@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { AgentBoot } from "@/components/hud/AgentBoot";
+import { SmallScreenNotice } from "@/components/SmallScreenNotice";
 import { ProcessingPanel } from "@/components/hud/ProcessingPanel";
 import { AgentFeed, type FeedItem } from "@/components/hud/AgentFeed";
 import { FirmPicker } from "@/components/FirmPicker";
@@ -626,6 +627,7 @@ export default function Committee() {
 
   return (
     <main className="relative h-screen overflow-hidden bg-ground text-ink">
+      <SmallScreenNotice />
       {booting && <AgentBoot onComplete={() => setBooting(false)} />}
       {door !== "none" && (
         <Door state={door} title="The committee" subtitle={`${firm.name} · ${hq.label}`} />

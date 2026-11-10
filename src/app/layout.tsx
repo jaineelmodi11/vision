@@ -56,13 +56,25 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Runs before the first paint. "/" is prerendered as the introduction, because
+ * the server cannot see localStorage; a founder who already has saved projects
+ * would otherwise watch the introduction flash past on every visit. This marks
+ * the document so the stylesheet can keep it hidden until their list replaces
+ * it. Must match the persist key in src/lib/sessions.ts.
+ */
+const returningScript = `try{var s=JSON.parse(localStorage.getItem("vision.sessions")||"null");if(s&&s.state&&s.state.sessions&&s.state.sessions.length)document.documentElement.dataset.returning="1"}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      // The script below adds an attribute to this element before hydration.
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <script dangerouslySetInnerHTML={{ __html: returningScript }} />
         {children}
         <div className="grain" aria-hidden />
       </body>

@@ -41,7 +41,10 @@
   /* Ink. Warm near-black, not pure black: pure black on warm paper buzzes. */
   --text: #191b20;
   --muted: #5a6068;
-  --faint: #868c96;
+  /* The quietest ink still has to be readable. #868c96 sat at 3.1:1 on the
+     paper, under the 4.5:1 WCAG asks of small text, and most of what it sets
+     is 12 and 13px. This is 4.7:1. */
+  --faint: #676d77;
 
   /* Brand blue, darkened until it holds contrast on paper. The dark theme's
      #5aa9e6 fails against a light background. */
@@ -103,6 +106,20 @@ body {
   background: var(--ground);
   color: var(--text);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* A returning founder's saved projects replace the introduction as soon as
+   the page hydrates. Until then, keep it out of sight rather than let it
+   flash. The attribute is set by the script in the root layout. */
+html[data-returning] .first-run-pending {
+  visibility: hidden;
+}
+
+/* Keyboard focus, everywhere. The inputs remove the browser's outline and
+   nothing replaced it on the buttons and links. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Dark chrome. */

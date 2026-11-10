@@ -10,6 +10,7 @@ import { useVenture } from "@/lib/store";
 import { hubById } from "@/data/globePoints";
 import { Minutes } from "@/components/Minutes";
 import { Intake } from "@/components/Intake";
+import { Landing } from "@/components/Landing";
 
 // ============================================================================
 // SAVED RUNS.
@@ -63,6 +64,24 @@ export default function Dashboard() {
     setActive(null);
     router.push("/study");
   };
+
+  // Nobody has run anything in this browser, so explain what this is instead
+  // of showing them an empty list. Also what the server renders, because the
+  // server cannot know: a returning founder is spared the flash by a rule in
+  // globals.css keyed off the script in the root layout.
+  if (!hydrated || (sessions.length === 0 && !creating)) {
+    return (
+      <Landing
+        pending={!hydrated}
+        onStart={() => {
+          // Whatever a half-finished earlier visit left behind is not what
+          // "start" means on this page.
+          useVenture.getState().reset();
+          router.push("/study");
+        }}
+      />
+    );
+  }
 
   return (
     <main className="min-h-screen bg-ground text-ink">
@@ -129,21 +148,6 @@ export default function Dashboard() {
           )}
         </AnimatePresence>
 
-        {hydrated && sessions.length === 0 && !creating && (
-          <div className="mt-20 text-center">
-            <p className="font-mono text-base text-ink">Nothing here yet.</p>
-            <p className="mx-auto mt-2 max-w-sm text-xs leading-relaxed text-faint">
-              A project starts with one sentence about something you built. The market
-              tells you what it is actually for.
-            </p>
-            <button
-              onClick={() => setCreating(true)}
-              className="mt-5 bg-accent px-5 py-2.5 font-mono text-[13px] uppercase tracking-[0.14em] text-ground transition hover:brightness-110"
-            >
-              Start your first project
-            </button>
-          </div>
-        )}
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {hydrated &&
